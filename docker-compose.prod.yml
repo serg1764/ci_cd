@@ -17,14 +17,15 @@ services:
     container_name: ci_cd_prod-traefik-1
     command:
       - "--api.dashboard=false"
-      - "--providers.docker=true"
-      - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
+      - "--providers.file.directory=/etc/traefik"
+      - "--providers.file.watch=true"
     ports:
       - "8080:80"
     volumes:
-      # Монтируем Docker socket для автоопределения контейнеров
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      # Монтируем конфигурационные файлы Traefik
+      - ./proxy/traefik.prod.yml:/etc/traefik/traefik.prod.yml
+      - ./proxy/dynamic.prod.yml:/etc/traefik/dynamic.prod.yml
     networks:
       - web
     restart: unless-stopped
@@ -34,11 +35,7 @@ services:
     container_name: ci_cd_prod-svc1-1
     environment:
       - APP_VERSION=${APP_VERSION}
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.svc1.rule=PathPrefix(`/svc1`)"
-      - "traefik.http.routers.svc1.entrypoints=web"
-      - "traefik.http.services.svc1.loadbalancer.server.port=8000"
+
     networks:
       - web
     restart: unless-stopped
@@ -48,11 +45,7 @@ services:
     container_name: ci_cd_prod-svc2-1
     environment:
       - APP_VERSION=${APP_VERSION}
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.svc2.rule=PathPrefix(`/svc2`)"
-      - "traefik.http.routers.svc2.entrypoints=web"
-      - "traefik.http.services.svc2.loadbalancer.server.port=8000"
+
     networks:
       - web
     restart: unless-stopped
@@ -62,11 +55,7 @@ services:
     container_name: ci_cd_prod-svc3-1
     environment:
       - APP_VERSION=${APP_VERSION}
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.svc3.rule=PathPrefix(`/svc3`)"
-      - "traefik.http.routers.svc3.entrypoints=web"
-      - "traefik.http.services.svc3.loadbalancer.server.port=8000"
+
     networks:
       - web
     restart: unless-stopped
@@ -76,11 +65,7 @@ services:
     container_name: ci_cd_prod-svc4-1
     environment:
       - APP_VERSION=${APP_VERSION}
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.svc4.rule=PathPrefix(`/svc4`)"
-      - "traefik.http.routers.svc4.entrypoints=web"
-      - "traefik.http.services.svc4.loadbalancer.server.port=8000"
+
     networks:
       - web
     restart: unless-stopped
@@ -90,11 +75,7 @@ services:
     container_name: ci_cd_prod-svc5-1
     environment:
       - APP_VERSION=${APP_VERSION}
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.svc5.rule=PathPrefix(`/svc5`)"
-      - "traefik.http.routers.svc5.entrypoints=web"
-      - "traefik.http.services.svc5.loadbalancer.server.port=8000"
+
     networks:
       - web
     restart: unless-stopped
