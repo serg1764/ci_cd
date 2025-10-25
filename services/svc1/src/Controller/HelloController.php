@@ -17,7 +17,8 @@ class HelloController
         return new JsonResponse([
             'service' => $serviceName,
             'version' => $version,
-            'message' => "Hello World {$version} service 1"
+            'message' => "Hello World {$version} service 1",
+            'message_for_prod' => "Hello World {$version} service 1 for prod"
         ]);
     }
 
