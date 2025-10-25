@@ -1,0 +1,68 @@
+version: '3.8'
+
+# APP_VERSION загружается из файла .env в корне проекта
+# Используется для версионирования всех микросервисов (svc1..svc5)
+# Изменить версию можно, отредактировав APP_VERSION в .env
+# Если переменная не задана в .env, используется значение по умолчанию 'v1'
+
+services:
+  proxy:
+    build:
+      context: .
+      dockerfile: proxy/Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - ./proxy/traefik.yml:/etc/traefik/traefik.yml
+      - ./proxy/dynamic.yml:/etc/traefik/dynamic.yml
+    depends_on:
+      - svc1
+      - svc2
+      - svc3
+      - svc4
+      - svc5
+
+  svc1:
+    build:
+      context: .
+      dockerfile: services/svc1/Dockerfile
+    environment:
+      - APP_VERSION=${APP_VERSION:-v1}
+    expose:
+      - "8000"
+
+  svc2:
+    build:
+      context: .
+      dockerfile: services/svc2/Dockerfile
+    environment:
+      - APP_VERSION=${APP_VERSION:-v1}
+    expose:
+      - "8000"
+
+  svc3:
+    build:
+      context: .
+      dockerfile: services/svc3/Dockerfile
+    environment:
+      - APP_VERSION=${APP_VERSION:-v1}
+    expose:
+      - "8000"
+
+  svc4:
+    build:
+      context: .
+      dockerfile: services/svc4/Dockerfile
+    environment:
+      - APP_VERSION=${APP_VERSION:-v1}
+    expose:
+      - "8000"
+
+  svc5:
+    build:
+      context: .
+      dockerfile: services/svc5/Dockerfile
+    environment:
+      - APP_VERSION=${APP_VERSION:-v1}
+    expose:
+      - "8000"

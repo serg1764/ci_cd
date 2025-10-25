@@ -1,0 +1,2 @@
+framework:
+    secret: 'dev-secret-key-for-local-only'

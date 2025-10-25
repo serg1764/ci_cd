@@ -1,0 +1,81 @@
+http:
+  middlewares:
+    strip-svc1:
+      stripPrefix:
+        prefixes:
+          - "/svc1"
+    strip-svc2:
+      stripPrefix:
+        prefixes:
+          - "/svc2"
+    strip-svc3:
+      stripPrefix:
+        prefixes:
+          - "/svc3"
+    strip-svc4:
+      stripPrefix:
+        prefixes:
+          - "/svc4"
+    strip-svc5:
+      stripPrefix:
+        prefixes:
+          - "/svc5"
+
+  routers:
+    svc1:
+      rule: "PathPrefix(`/svc1`)"
+      service: svc1
+      middlewares:
+        - strip-svc1
+      entryPoints:
+        - web
+    svc2:
+      rule: "PathPrefix(`/svc2`)"
+      service: svc2
+      middlewares:
+        - strip-svc2
+      entryPoints:
+        - web
+    svc3:
+      rule: "PathPrefix(`/svc3`)"
+      service: svc3
+      middlewares:
+        - strip-svc3
+      entryPoints:
+        - web
+    svc4:
+      rule: "PathPrefix(`/svc4`)"
+      service: svc4
+      middlewares:
+        - strip-svc4
+      entryPoints:
+        - web
+    svc5:
+      rule: "PathPrefix(`/svc5`)"
+      service: svc5
+      middlewares:
+        - strip-svc5
+      entryPoints:
+        - web
+
+  services:
+    svc1:
+      loadBalancer:
+        servers:
+          - url: "http://svc1:8000"
+    svc2:
+      loadBalancer:
+        servers:
+          - url: "http://svc2:8000"
+    svc3:
+      loadBalancer:
+        servers:
+          - url: "http://svc3:8000"
+    svc4:
+      loadBalancer:
+        servers:
+          - url: "http://svc4:8000"
+    svc5:
+      loadBalancer:
+        servers:
+          - url: "http://svc5:8000"
