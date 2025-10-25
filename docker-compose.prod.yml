@@ -1,20 +1,27 @@
 version: '3.8'
 
+# Продакшн конфигурация - префикс имени проекта: ci_cd_prod
+name: ci_cd_prod
+
 # Продакшн конфигурация для развертывания готовых образов из GHCR
 # Использует готовые Docker образы вместо локальной сборки
 # Для сборки образов используйте GitHub Actions workflow
 
+# Так запускаем Прод локально.
+#docker compose -f docker-compose.prod.yml --env-file .env.prod pull
+#docker compose -f docker-compose.prod.yml --env-file .env.prod up -d --remove-orphans
+
 services:
   traefik:
     image: traefik:v3.1
-    container_name: traefik-prod
+    container_name: ci_cd_prod-traefik-1
     command:
       - "--api.dashboard=false"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
     ports:
-      - "80:80"
+      - "8080:80"
     volumes:
       # Монтируем Docker socket для автоопределения контейнеров
       - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -24,7 +31,7 @@ services:
 
   svc1:
     image: ghcr.io/${GITHUB_REPOSITORY:-username/repo}:svc1-${IMAGE_TAG:-latest}
-    container_name: svc1-prod
+    container_name: ci_cd_prod-svc1-1
     environment:
       - APP_VERSION=${APP_VERSION}
     labels:
@@ -38,7 +45,7 @@ services:
 
   svc2:
     image: ghcr.io/${GITHUB_REPOSITORY:-username/repo}:svc2-${IMAGE_TAG:-latest}
-    container_name: svc2-prod
+    container_name: ci_cd_prod-svc2-1
     environment:
       - APP_VERSION=${APP_VERSION}
     labels:
@@ -52,7 +59,7 @@ services:
 
   svc3:
     image: ghcr.io/${GITHUB_REPOSITORY:-username/repo}:svc3-${IMAGE_TAG:-latest}
-    container_name: svc3-prod
+    container_name: ci_cd_prod-svc3-1
     environment:
       - APP_VERSION=${APP_VERSION}
     labels:
@@ -66,7 +73,7 @@ services:
 
   svc4:
     image: ghcr.io/${GITHUB_REPOSITORY:-username/repo}:svc4-${IMAGE_TAG:-latest}
-    container_name: svc4-prod
+    container_name: ci_cd_prod-svc4-1
     environment:
       - APP_VERSION=${APP_VERSION}
     labels:
@@ -80,7 +87,7 @@ services:
 
   svc5:
     image: ghcr.io/${GITHUB_REPOSITORY:-username/repo}:svc5-${IMAGE_TAG:-latest}
-    container_name: svc5-prod
+    container_name: ci_cd_prod-svc5-1
     environment:
       - APP_VERSION=${APP_VERSION}
     labels:
