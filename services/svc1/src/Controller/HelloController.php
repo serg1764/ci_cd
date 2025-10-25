@@ -18,7 +18,8 @@ class HelloController
             'service' => $serviceName,
             'version' => $version,
             'message' => "Hello World {$version} service 1",
-            'message_for_prod' => "Hello World {$version} service 1 for prod"
+            'message_for_prod' => "Hello World {$version} service 1 for prod",
+            'message_for_prod-888' => "Hello888 World888 {$version}888 service888 1 for prod888"
         ]);
     }
 
