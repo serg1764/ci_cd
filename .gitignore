@@ -1,0 +1,16 @@
+# Symfony / PHP
+/vendor/
+/var/
+/composer.lock
+.phpunit.result.cache
+
+# Docker
+*.log
+.env.prod
+.env.local
+.env.local.php
+
+# OS/IDE
+.DS_Store
+.idea/
+.vscode/
